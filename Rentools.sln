@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33423.256
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rentools", "Rentools.csproj", "{4182A808-7C8E-4A06-90F3-31F7E0C66D7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4182A808-7C8E-4A06-90F3-31F7E0C66D7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4182A808-7C8E-4A06-90F3-31F7E0C66D7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4182A808-7C8E-4A06-90F3-31F7E0C66D7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4182A808-7C8E-4A06-90F3-31F7E0C66D7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02530A19-276D-40E8-A54F-9460005664E2}
+	EndGlobalSection
+EndGlobal
