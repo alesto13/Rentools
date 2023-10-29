@@ -1,37 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Rentools.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Rentools.Controllers
 {
-    public class HomeController : Controller
+    public class AnnonceController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly RentoolsContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public AnnonceController(RentoolsContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View("Index", new AnnonceSearchViewModel());
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Rechercher(AnnonceSearchViewModel recherche)
         {
-            return View();
-        }
+            var annonces = _context.Annonce
+            .Join(_context.CategorieAnnonce,
+                  annonce => annonce.IdAnnonce,
+                  categorieAnnonce => categorieAnnonce.AnnonceidAnnonce,
+                  (annonce, categorieAnnonce) => new { Annonce = annonce, CategorieAnnonce = categorieAnnonce })
+            .Join(_context.Categorie,
+                  joinedTables => joinedTables.CategorieAnnonce.CategorieidCategorie,
+                  categorie => categorie.IdCategorie,
+                  (joinedTables, categorie) => new { Annonce = joinedTables.Annonce, Categorie = categorie })
+            .Where(joinedTables =>
+                (string.IsNullOrEmpty(recherche.NomAnnonce) || joinedTables.Annonce.NomAnnonce.Contains(recherche.NomAnnonce)) &&
+                (string.IsNullOrEmpty(recherche.Categorie) || joinedTables.Categorie.Nom.Contains(recherche.Categorie)) &&
+                (string.IsNullOrEmpty(recherche.Emplacement) || joinedTables.Annonce.Emplacement.Contains(recherche.Emplacement)))
+            .Select(joinedTables => joinedTables.Annonce)
+            .ToList();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(annonces);
         }
     }
-}
